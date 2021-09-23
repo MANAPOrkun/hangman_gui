@@ -2,9 +2,95 @@
 <!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
+  <object class="GtkListStore" id="liststore1">
+    <columns>
+      <!-- column-name Letter -->
+      <column type="gchar"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0">A</col>
+      </row>
+      <row>
+        <col id="0">B</col>
+      </row>
+      <row>
+        <col id="0">C</col>
+      </row>
+      <row>
+        <col id="0">D</col>
+      </row>
+      <row>
+        <col id="0">E</col>
+      </row>
+      <row>
+        <col id="0">F</col>
+      </row>
+      <row>
+        <col id="0">G</col>
+      </row>
+      <row>
+        <col id="0">H</col>
+      </row>
+      <row>
+        <col id="0">I</col>
+      </row>
+      <row>
+        <col id="0">J</col>
+      </row>
+      <row>
+        <col id="0">K</col>
+      </row>
+      <row>
+        <col id="0">L</col>
+      </row>
+      <row>
+        <col id="0">M</col>
+      </row>
+      <row>
+        <col id="0">N</col>
+      </row>
+      <row>
+        <col id="0">O</col>
+      </row>
+      <row>
+        <col id="0">P</col>
+      </row>
+      <row>
+        <col id="0">Q</col>
+      </row>
+      <row>
+        <col id="0">R</col>
+      </row>
+      <row>
+        <col id="0">S</col>
+      </row>
+      <row>
+        <col id="0">T</col>
+      </row>
+      <row>
+        <col id="0">U</col>
+      </row>
+      <row>
+        <col id="0">V</col>
+      </row>
+      <row>
+        <col id="0">W</col>
+      </row>
+      <row>
+        <col id="0">X</col>
+      </row>
+      <row>
+        <col id="0">Y</col>
+      </row>
+      <row>
+        <col id="0">Z</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkApplicationWindow" id="application_window">
     <property name="can-focus">False</property>
-    <property name="title" translatable="yes">Hangman</property>
+    <property name="resizable">False</property>
     <property name="default-width">640</property>
     <property name="default-height">480</property>
     <child>
@@ -18,7 +104,7 @@
             <property name="can-focus">False</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkBox">
+              <object class="GtkBox" id="upper_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <child>
@@ -65,26 +151,134 @@
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">16</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkImage" id="hangman_image">
+              <object class="GtkSeparator">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="pixbuf">images/pikachu.png</property>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="middle_box">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkImage" id="hangman_image">
+                    <property name="width-request">36</property>
+                    <property name="height-request">23</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="margin-left">117</property>
+                    <property name="margin-right">104</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="pixbuf">images/hangmanAlive.png</property>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">False</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSeparator">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox" id="middle_right_box">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="orientation">vertical</property>
+                    <child>
+                      <object class="GtkLabel" id="letter_label">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="valign">end</property>
+                        <property name="vexpand">True</property>
+                        <property name="label" translatable="yes">Select a letter!</property>
+                        <attributes>
+                          <attribute name="scale" value="1.2"/>
+                          <attribute name="underline" value="True"/>
+                        </attributes>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBox" id="letter_box">
+                        <property name="width-request">120</property>
+                        <property name="height-request">36</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="valign">center</property>
+                        <property name="model">liststore1</property>
+                        <property name="active">26</property>
+                        <property name="id-column">0</property>
+                        <property name="active-id">0</property>
+                        <child>
+                          <object class="GtkCellRendererText"/>
+                          <attributes>
+                            <attribute name="text">0</attribute>
+                          </attributes>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="padding">10</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="padding">10</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="padding">10</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSeparator">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
               </packing>
             </child>
             <child>
               <object class="GtkLabel" id="word_label">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label" translatable="yes">EX_MP_E</property>
+                <property name="label" translatable="yes">Press the button to start!</property>
                 <attributes>
                   <attribute name="weight" value="bold"/>
                   <attribute name="scale" value="2"/>
@@ -93,7 +287,8 @@
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="position">2</property>
+                <property name="padding">10</property>
+                <property name="position">4</property>
               </packing>
             </child>
           </object>

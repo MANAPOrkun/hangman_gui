@@ -54,6 +54,26 @@ fn main() {
             "loop".to_string(),
             "tragedy".to_string(),
             "wonder".to_string(),
+            "buff".to_string(),
+            "dizzying".to_string(),
+            "vodka".to_string(),
+            "cozy".to_string(),
+            "bikini".to_string(),
+            "dwarves".to_string(),
+            "kiosk".to_string(),
+            "buzzing".to_string(),
+            "klutz".to_string(),
+            "swivel".to_string(),
+            "vex".to_string(),
+            "embezzle".to_string(),
+            "avenue".to_string(),
+            "disavow".to_string(),
+            "keyhole".to_string(),
+            "voodoo".to_string(),
+            "razzmatazz".to_string(),
+            "curacao".to_string(),
+            "gabby".to_string(),
+            "bookworm".to_string(),
         ];
 
         let word_count = word_list.len();
@@ -62,7 +82,7 @@ fn main() {
             word_list,
         };
 
-        let words = Rc::new(RefCell::new(test.get_word()));
+        let words = Rc::new(RefCell::new(test.get_word(word_count)));
         let words_borrowed = words.clone();
         let words_borrowed_clone = words_borrowed.clone();
     
@@ -86,11 +106,11 @@ fn main() {
                 letter_count_clone.set_text(&give_letter_number_clone.get().to_string());
                 health_count.set_text(&health_point.get().to_string());
 
-                *words_borrowed.borrow_mut() = test.get_word(); 
+                *words_borrowed.borrow_mut() = test.get_word(word_count); 
                 word_label.set_text(&words_borrowed.borrow()[0]);
 
                 check_button.set_label("Check");
-                text_entry.activate();
+                text_entry.show();
 
             } else {
                 // Check if the score reached, if so, reset the application
@@ -108,10 +128,11 @@ fn main() {
                     letter_count_clone.set_text(&give_letter_number_clone.get().to_string());
                     health_count.set_text(&health_point.get().to_string());
 
-                    *words_borrowed.borrow_mut() = test.get_word(); 
+                    *words_borrowed.borrow_mut() = test.get_word(word_count); 
                     word_label.set_text(&words_borrowed.borrow()[0]);
 
                     check_button.set_label("Check");
+                    text_entry.show();
                 } else {
                     // Get the text in entry
                     let message_gstring = text_entry.get_text();
@@ -128,7 +149,7 @@ fn main() {
                             point_label.set_label(&score.get().to_string());
 
                             // Get a new word from the list
-                            *words_borrowed.borrow_mut() = test.get_word(); 
+                            *words_borrowed.borrow_mut() = test.get_word(word_count); 
                             word_label.set_text(&words_borrowed.borrow()[0]);
 
                             // Reset the entry
@@ -248,10 +269,10 @@ struct Word {
 }
 
 impl Word {
-    pub fn get_word(&self) -> [String; 2]{
+    pub fn get_word(&self, word_list_len: usize) -> [String; 2]{
         //Get the first word from vector
         let mut rng = rand::thread_rng();
-        let mut selected_word = self.word_list[rng.gen_range(0..10)].clone();
+        let mut selected_word = self.word_list[rng.gen_range(0..word_list_len)].clone();
         let copy_word = selected_word.clone();
         let word_length = selected_word.len();
         

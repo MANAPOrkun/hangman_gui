@@ -410,7 +410,6 @@
                         <property name="can-focus">False</property>
                         <property name="valign">center</property>
                         <property name="model">liststore1</property>
-                        <property name="active">26</property>
                         <property name="id-column">0</property>
                         <property name="active-id">0</property>
                         <child>

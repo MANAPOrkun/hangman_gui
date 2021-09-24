@@ -247,7 +247,7 @@
                               <object class="GtkLabel" id="count_label">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">0</property>
+                                <property name="label" translatable="yes">4</property>
                                 <attributes>
                                   <attribute name="scale" value="2"/>
                                 </attributes>
@@ -316,7 +316,7 @@
                               <object class="GtkLabel" id="health_label">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">0</property>
+                                <property name="label" translatable="yes">4</property>
                                 <attributes>
                                   <attribute name="scale" value="2"/>
                                 </attributes>
@@ -410,9 +410,9 @@
                         <property name="can-focus">False</property>
                         <property name="valign">center</property>
                         <property name="model">liststore1</property>
-                        <property name="active">26</property>
+                        <property name="active">0</property>
                         <property name="id-column">0</property>
-                        <property name="active-id">0</property>
+                        <property name="active-id">-1</property>
                         <child>
                           <object class="GtkCellRendererText"/>
                           <attributes>

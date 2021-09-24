@@ -31,6 +31,13 @@ fn main() {
         let word_label_clone = word_label.clone();
         let letter_count_clone = letter_count.clone();
 
+        // Get working directory to get images
+        let working_directory = match env::current_exe(){
+            Ok(working_directory) => working_directory.parent().unwrap().parent().unwrap().parent().unwrap().display().to_string(),
+            Err(_) => panic!(),
+        };
+        
+        hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive0.png");
 
         // Define score
         let score = Rc::new(Cell::new(0));
@@ -97,11 +104,12 @@ fn main() {
                 health_point.set(4);
                 give_letter_number_clone.set(4);
 
-                hangman_image.set_from_file("./images/hangmanAlive0.png");
+                hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive0.png");
                 
                 text_entry.set_text("");
                 text_entry.set_placeholder_text(Some("Enter your guess!"));
 
+                score_label.set_text("Score:");
                 point_label.set_label(&score.get().to_string());
                 letter_count_clone.set_text(&give_letter_number_clone.get().to_string());
                 health_count.set_text(&health_point.get().to_string());
@@ -119,11 +127,12 @@ fn main() {
                     health_point.set(4);
                     give_letter_number_clone.set(4);
 
-                    hangman_image.set_from_file("./images/hangmanAlive0.png");
+                    hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive0.png");
                     
                     text_entry.set_text("");
                     text_entry.set_placeholder_text(Some("Enter your guess!"));
 
+                    score_label.set_text("Score:");
                     point_label.set_label(&score.get().to_string());
                     letter_count_clone.set_text(&give_letter_number_clone.get().to_string());
                     health_count.set_text(&health_point.get().to_string());
@@ -156,11 +165,9 @@ fn main() {
                             text_entry.set_text("");
                             text_entry.set_placeholder_text(Some("Enter your guess!"));
 
-                            //hangman_image.set_from_file("./images/hangmanAlive.png");
 
                             // Check if the score reached, if so, change the UI
                             if score.get()/10 == 20{
-                                //hangman_image.set_from_file("./images/hangmanAlive.png");
                                 score_label.set_text("YOU WON!");
                                 word_label.set_text("Press the button to restart");
                                 check_button.set_label("Restart");
@@ -179,7 +186,6 @@ fn main() {
 
                             // If health has reached to 0, change the UI
                             if health_point.get() == 0 {
-                                //hangman_image.set_from_file("./images/hangmanDead.png");
                                 score_label.set_text("YOU LOSE!");
                                 word_label.set_text("Press the button to restart");
                                 check_button.set_label("Restart");
@@ -188,11 +194,11 @@ fn main() {
                         }
 
                         match health_point.get() {
-                            4 => hangman_image.set_from_file("./images/hangmanAlive0.png"),
-                            3 => hangman_image.set_from_file("./images/hangmanAlive1.png"),
-                            2 => hangman_image.set_from_file("./images/hangmanAlive2.png"),
-                            1 => hangman_image.set_from_file("./images/hangmanAlive3.png"),
-                            _=> hangman_image.set_from_file("./images/hangmanDead.png"),
+                            4 => hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive0.png"),
+                            3 => hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive1.png"),
+                            2 => hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive2.png"),
+                            1 => hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive3.png"),
+                            _=> hangman_image.set_from_file(working_directory.clone() + "/images/hangmanDead.png"),
                         };
                     };
                 }

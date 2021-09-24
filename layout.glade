@@ -209,7 +209,6 @@
                     <property name="margin-right">104</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
-                    <property name="pixbuf">images/hangmanAlive0.png</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>

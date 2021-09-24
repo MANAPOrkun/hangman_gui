@@ -118,6 +118,7 @@
   </object>
   <object class="GtkApplicationWindow" id="application_window">
     <property name="can-focus">False</property>
+    <property name="title" translatable="yes">Hangman Rust</property>
     <property name="resizable">False</property>
     <property name="default-width">640</property>
     <property name="default-height">480</property>
@@ -208,7 +209,7 @@
                     <property name="margin-right">104</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
-                    <property name="pixbuf">images/hangmanAlive.png</property>
+                    <property name="pixbuf">images/hangmanAlive0.png</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -410,9 +411,8 @@
                         <property name="can-focus">False</property>
                         <property name="valign">center</property>
                         <property name="model">liststore1</property>
-                        <property name="active">0</property>
                         <property name="id-column">0</property>
-                        <property name="active-id">-1</property>
+                        <property name="active-id">0</property>
                         <child>
                           <object class="GtkCellRendererText"/>
                           <attributes>

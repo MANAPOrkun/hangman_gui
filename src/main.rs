@@ -97,7 +97,7 @@ fn main() {
                 health_point.set(4);
                 give_letter_number_clone.set(4);
 
-                hangman_image.set_from_file("./images/hangmanAlive.png");
+                hangman_image.set_from_file("./images/hangmanAlive0.png");
                 
                 text_entry.set_text("");
                 text_entry.set_placeholder_text(Some("Enter your guess!"));
@@ -119,7 +119,7 @@ fn main() {
                     health_point.set(4);
                     give_letter_number_clone.set(4);
 
-                    hangman_image.set_from_file("./images/hangmanAlive.png");
+                    hangman_image.set_from_file("./images/hangmanAlive0.png");
                     
                     text_entry.set_text("");
                     text_entry.set_placeholder_text(Some("Enter your guess!"));
@@ -156,11 +156,11 @@ fn main() {
                             text_entry.set_text("");
                             text_entry.set_placeholder_text(Some("Enter your guess!"));
 
-                            hangman_image.set_from_file("./images/hangmanAlive.png");
+                            //hangman_image.set_from_file("./images/hangmanAlive.png");
 
                             // Check if the score reached, if so, change the UI
                             if score.get()/10 == 20{
-                                hangman_image.set_from_file("./images/hangmanAlive.png");
+                                //hangman_image.set_from_file("./images/hangmanAlive.png");
                                 score_label.set_text("YOU WON!");
                                 word_label.set_text("Press the button to restart");
                                 check_button.set_label("Restart");
@@ -179,13 +179,21 @@ fn main() {
 
                             // If health has reached to 0, change the UI
                             if health_point.get() == 0 {
-                                hangman_image.set_from_file("./images/hangmanDead.png");
+                                //hangman_image.set_from_file("./images/hangmanDead.png");
                                 score_label.set_text("YOU LOSE!");
                                 word_label.set_text("Press the button to restart");
                                 check_button.set_label("Restart");
                                 text_entry.hide();
                             }
                         }
+
+                        match health_point.get() {
+                            4 => hangman_image.set_from_file("./images/hangmanAlive0.png"),
+                            3 => hangman_image.set_from_file("./images/hangmanAlive1.png"),
+                            2 => hangman_image.set_from_file("./images/hangmanAlive2.png"),
+                            1 => hangman_image.set_from_file("./images/hangmanAlive3.png"),
+                            _=> hangman_image.set_from_file("./images/hangmanDead.png"),
+                        };
                     };
                 }
             }

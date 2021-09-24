@@ -118,6 +118,7 @@
   </object>
   <object class="GtkApplicationWindow" id="application_window">
     <property name="can-focus">False</property>
+    <property name="title" translatable="yes">Hangman Rust GTK</property>
     <property name="resizable">False</property>
     <property name="default-width">640</property>
     <property name="default-height">480</property>
@@ -208,7 +209,7 @@
                     <property name="margin-right">104</property>
                     <property name="hexpand">True</property>
                     <property name="vexpand">True</property>
-                    <property name="pixbuf">images/hangmanAlive.png</property>
+                    <property name="pixbuf">images/hangmanAlive0.png</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>

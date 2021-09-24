@@ -6,85 +6,113 @@
     <columns>
       <!-- column-name Letter -->
       <column type="gchar"/>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
     </columns>
     <data>
       <row>
         <col id="0">A</col>
+        <col id="1">A</col>
       </row>
       <row>
         <col id="0">B</col>
+        <col id="1" translatable="yes">B</col>
       </row>
       <row>
         <col id="0">C</col>
+        <col id="1" translatable="yes">C</col>
       </row>
       <row>
         <col id="0">D</col>
+        <col id="1" translatable="yes">D</col>
       </row>
       <row>
         <col id="0">E</col>
+        <col id="1" translatable="yes">E</col>
       </row>
       <row>
         <col id="0">F</col>
+        <col id="1" translatable="yes">F</col>
       </row>
       <row>
         <col id="0">G</col>
+        <col id="1" translatable="yes">G</col>
       </row>
       <row>
         <col id="0">H</col>
+        <col id="1" translatable="yes">H</col>
       </row>
       <row>
         <col id="0">I</col>
+        <col id="1" translatable="yes">I</col>
       </row>
       <row>
         <col id="0">J</col>
+        <col id="1" translatable="yes">J</col>
       </row>
       <row>
         <col id="0">K</col>
+        <col id="1" translatable="yes">K</col>
       </row>
       <row>
         <col id="0">L</col>
+        <col id="1" translatable="yes">L</col>
       </row>
       <row>
         <col id="0">M</col>
+        <col id="1" translatable="yes">M</col>
       </row>
       <row>
         <col id="0">N</col>
+        <col id="1" translatable="yes">N</col>
       </row>
       <row>
         <col id="0">O</col>
+        <col id="1" translatable="yes">O</col>
       </row>
       <row>
         <col id="0">P</col>
+        <col id="1" translatable="yes">P</col>
       </row>
       <row>
         <col id="0">Q</col>
+        <col id="1" translatable="yes">Q</col>
       </row>
       <row>
         <col id="0">R</col>
+        <col id="1" translatable="yes">R</col>
       </row>
       <row>
         <col id="0">S</col>
+        <col id="1" translatable="yes">S</col>
       </row>
       <row>
         <col id="0">T</col>
+        <col id="1" translatable="yes">T</col>
       </row>
       <row>
         <col id="0">U</col>
+        <col id="1" translatable="yes">U</col>
       </row>
       <row>
         <col id="0">V</col>
+        <col id="1" translatable="yes">V</col>
       </row>
       <row>
         <col id="0">W</col>
+        <col id="1" translatable="yes">W</col>
       </row>
       <row>
         <col id="0">X</col>
+        <col id="1" translatable="yes">X</col>
       </row>
       <row>
         <col id="0">Y</col>
+        <col id="1" translatable="yes">Y</col>
       </row>
       <row>
         <col id="0">Z</col>
+        <col id="1" translatable="yes">Z</col>
       </row>
     </data>
   </object>
@@ -204,6 +232,158 @@
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
                     <property name="orientation">vertical</property>
+                    <property name="spacing">16</property>
+                    <child>
+                      <object class="GtkBox" id="middle_right_up_box">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="orientation">vertical</property>
+                        <property name="spacing">24</property>
+                        <child>
+                          <object class="GtkBox" id="letter_count_box">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel" id="count_label">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">0</property>
+                                <attributes>
+                                  <attribute name="scale" value="2"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="count_label_2">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">/4</property>
+                                <attributes>
+                                  <attribute name="scale" value="2"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="count_text_label">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Letter</property>
+                                <attributes>
+                                  <attribute name="scale" value="2"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="padding">45</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="padding">30</property>
+                            <property name="position">0</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkSeparator">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkBox" id="health_count_box">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <child>
+                              <object class="GtkLabel" id="health_label">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">0</property>
+                                <attributes>
+                                  <attribute name="scale" value="2"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="health_label_2">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">/4</property>
+                                <attributes>
+                                  <attribute name="scale" value="2"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="health_text_label">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="label" translatable="yes">Health</property>
+                                <attributes>
+                                  <attribute name="scale" value="2"/>
+                                </attributes>
+                              </object>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">True</property>
+                                <property name="padding">45</property>
+                                <property name="position">2</property>
+                              </packing>
+                            </child>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="padding">30</property>
+                            <property name="position">2</property>
+                          </packing>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkSeparator">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                     <child>
                       <object class="GtkLabel" id="letter_label">
                         <property name="visible">True</property>
@@ -219,7 +399,7 @@
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">True</property>
-                        <property name="position">0</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                     <child>
@@ -236,7 +416,7 @@
                         <child>
                           <object class="GtkCellRendererText"/>
                           <attributes>
-                            <attribute name="text">0</attribute>
+                            <attribute name="text">1</attribute>
                           </attributes>
                         </child>
                       </object>
@@ -244,7 +424,7 @@
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="padding">10</property>
-                        <property name="position">1</property>
+                        <property name="position">3</property>
                       </packing>
                     </child>
                   </object>

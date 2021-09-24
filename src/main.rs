@@ -2,9 +2,8 @@ use gio::prelude::*;
 use gtk::prelude::*;
 use std::env;
 use glib::clone;
-use std::{cell::Cell, rc::Rc};
+use std::{cell::Cell, rc::Rc, cell::RefCell};
 use rand::Rng;
-use glib::clone::Downgrade;
 
 fn main() {
     let app = gtk::Application::new(
@@ -27,16 +26,24 @@ fn main() {
         let text_entry: gtk::Entry = builder.get_object("text_entry").unwrap();
         let hangman_image: gtk::Image = builder.get_object("hangman_image").unwrap();
         let letter_box: gtk::ComboBox = builder.get_object("letter_box").unwrap();
-        // let hangman_image_clone = hangman_image.clone();
+        let letter_count: gtk::Label = builder.get_object("count_label").unwrap();
+        let health_count: gtk::Label = builder.get_object("health_label").unwrap();
+        let word_label_clone = word_label.clone();
+        let letter_count_clone = letter_count.clone();
+
 
         // Define score
         let score = Rc::new(Cell::new(0));
 
         // Define number of taking letter
-        let give_letter = Rc::new(Cell::new(3));
+        let give_letter_number = Rc::new(Cell::new(4));
+        let give_letter_number_clone = give_letter_number.clone();
+
+        // Define health
+        let health_point = Rc::new(Cell::new(4));
 
         // Define word list
-        let word_list:Vec<String> = vec![
+        let word_list = vec![
             "opposed".to_string(),
             "consider".to_string(),
             "relationship".to_string(),
@@ -48,56 +55,169 @@ fn main() {
             "tragedy".to_string(),
             "wonder".to_string(),
         ];
-        
-        let mut test = Word{
+
+        let word_count = word_list.len();
+
+        let test = Word {
             word_list,
         };
 
-        let a = &test.get_word();
-        let selected_word = a[0].clone();
-        let copy_word = a[1].clone();
-
-        
-
+        let words = Rc::new(RefCell::new(test.get_word()));
+        let words_borrowed = words.clone();
+        let words_borrowed_clone = words_borrowed.clone();
+    
         // Set word label as selected word
-        word_label.set_text(&selected_word);
+        word_label.set_text(&words.borrow()[0]);
 
-        check_button.connect_clicked(clone!(@strong score, @strong selected_word, @strong copy_word => move |_| {
+        check_button.connect_clicked(clone!(@strong score, @strong health_point,@strong give_letter_number_clone  => move |check_button| {
 
-            // Check if there is any word left in vector
-            if 0 == 1 {
-                score_label.set_text("YOU WON!");
-                text_entry.hide();
+            // If there is no health left
+            if health_point.get() == 0 {
+                score.set(0);
+                health_point.set(4);
+                give_letter_number_clone.set(4);
+
+                hangman_image.set_from_file("./images/hangmanAlive.png");
+                
+                text_entry.set_text("");
+                text_entry.set_placeholder_text(Some("Enter your guess!"));
+
+                point_label.set_label(&score.get().to_string());
+                letter_count_clone.set_text(&give_letter_number_clone.get().to_string());
+                health_count.set_text(&health_point.get().to_string());
+
+                *words_borrowed.borrow_mut() = test.get_word(); 
+                word_label.set_text(&words_borrowed.borrow()[0]);
+
+                check_button.set_label("Check");
+                text_entry.activate();
+
             } else {
-                let message_gstring = text_entry.get_text();
+                // Check if there is any word left in vector
+                if score.get()/10 == word_count + 1{
+                    score.set(0);
+                    health_point.set(4);
+                    give_letter_number_clone.set(4);
 
-                if message_gstring.as_str().is_empty() {
-                    text_entry.set_placeholder_text(Some("Please enter a guess!"));
+                    hangman_image.set_from_file("./images/hangmanAlive.png");
+                    
+                    text_entry.set_text("");
+                    text_entry.set_placeholder_text(Some("Enter your guess!"));
+
+                    point_label.set_label(&score.get().to_string());
+                    letter_count_clone.set_text(&give_letter_number_clone.get().to_string());
+                    health_count.set_text(&health_point.get().to_string());
+
+                    *words_borrowed.borrow_mut() = test.get_word(); 
+                    word_label.set_text(&words_borrowed.borrow()[0]);
+
+                    check_button.set_label("Check");
                 } else {
-                    if message_gstring == copy_word {
-                        score.set(score.get() + 10);
-    
-                        point_label.set_label(&score.get().to_string());
-    
-                        //let mut rng = rand::thread_rng();
-                        //word_label.set_text(&word_list[rng.gen_range(0..word_list.len())]);
-    
-                        let words = &test.get_word();
-                        selected_word. = words[0].clone();
-                        let copy_word = words[1].clone();
+                    let message_gstring = text_entry.get_text();
 
-                        word_label.set_text(&selected_word.clone());
-
-                        hangman_image.set_from_file("./images/hangmanAlive.png");
+                    if message_gstring.as_str().is_empty() {
+                        text_entry.set_placeholder_text(Some("Please enter a guess!"));
                     } else {
-                        hangman_image.set_from_file("./images/hangmanDead.png");
-                        text_entry.set_text("");
-                        text_entry.set_placeholder_text(Some("Try again!"));
-                    }
-                };
+                        if &message_gstring.to_string() == &words_borrowed.borrow()[1] {
+                            score.set(score.get() + 10);
+
+                            point_label.set_label(&score.get().to_string());
+
+                            *words_borrowed.borrow_mut() = test.get_word(); 
+                            word_label.set_text(&words_borrowed.borrow()[0]);
+
+                            text_entry.set_text("");
+                            text_entry.set_placeholder_text(Some("Enter your guess!"));
+
+                            hangman_image.set_from_file("./images/hangmanAlive.png");
+
+                            if score.get()/10 == word_count{
+                                hangman_image.set_from_file("./images/hangmanAlive.png");
+                                score_label.set_text("YOU WON!");
+                                word_label.set_text("Press the button to restart");
+                                check_button.set_label("Restart");
+                                text_entry.hide();
+                            }
+
+                        } else {
+                            health_point.set(health_point.get() - 1);
+                            health_count.set_text(&health_point.get().to_string());
+
+                            text_entry.set_text("");
+                            text_entry.set_placeholder_text(Some("Try again!"));
+
+                            if health_point.get() == 0 {
+                                hangman_image.set_from_file("./images/hangmanDead.png");
+                                score_label.set_text("YOU LOSE!");
+                                word_label.set_text("Press the button to restart");
+                                check_button.set_label("Restart");
+                                text_entry.hide();
+                            }
+                        }
+                    };
+                }
             }
+            
         }));
 
+        letter_box.connect_changed(clone!(@strong give_letter_number => move |letter_box| {
+
+            if give_letter_number.get() > 0 {
+                let tree_iter = letter_box.get_active_iter().unwrap();
+                let model = letter_box.get_model().unwrap();
+                let selection = match &*model.get_string_from_iter(&tree_iter).unwrap().to_string() {
+                    "0" => "a",
+                    "1" => "b",
+                    "2" => "c",
+                    "3" => "d",
+                    "4" => "e",
+                    "5" => "f",
+                    "6" => "g",
+                    "7" => "h",
+                    "8" => "i",
+                    "9" => "j",
+                    "10" => "k",
+                    "11" => "l",
+                    "12" => "m",
+                    "13" => "n",
+                    "14" => "o",
+                    "15" => "p",
+                    "16" => "q",
+                    "17" => "r",
+                    "18" => "s",
+                    "19" => "t",
+                    "20" => "u",
+                    "21" => "v",
+                    "22" => "w",
+                    "23" => "x",
+                    "24" => "y",
+                    "25" => "z",
+                    _ => "",
+                };
+    
+                let original_word = &words_borrowed_clone.borrow()[1];
+                let mut showed_word = word_label_clone.get_text().to_string();
+    
+                let mut changed = false;
+    
+                for (i, letter) in original_word.char_indices() {
+                    //if letter.to_string().eq(selection) {
+                    if showed_word.chars().nth(i).unwrap().to_string().eq("_") && letter.to_string().eq(selection) {
+                        showed_word.replace_range(i..(i+1), selection);
+                        changed = true;
+                    }
+                }
+    
+                if changed {
+                    word_label_clone.set_text(&showed_word);
+                } else {
+                    println!("'{}' could not found in '{}'", selection, original_word);  
+                }
+    
+                give_letter_number.set(give_letter_number.get() - 1);
+                letter_count.set_text(&give_letter_number.get().to_string());
+            }
+        }));
         window.show_all();
     });
     app.run(&env::args().collect::<Vec<_>>());

@@ -71,7 +71,7 @@ fn main() {
 
         check_button.connect_clicked(clone!(@strong score, @strong health_point,@strong give_letter_number_clone  => move |check_button| {
 
-            // If there is no health left
+            // If there is no health left, reset the application
             if health_point.get() == 0 {
                 score.set(0);
                 health_point.set(4);
@@ -93,8 +93,8 @@ fn main() {
                 text_entry.activate();
 
             } else {
-                // Check if there is any word left in vector
-                if score.get()/10 == word_count + 1{
+                // Check if the score reached, if so, reset the application
+                if score.get()/10 == 20{
                     score.set(0);
                     health_point.set(4);
                     give_letter_number_clone.set(4);
@@ -113,25 +113,32 @@ fn main() {
 
                     check_button.set_label("Check");
                 } else {
+                    // Get the text in entry
                     let message_gstring = text_entry.get_text();
 
+                    // Check if it is empty
                     if message_gstring.as_str().is_empty() {
                         text_entry.set_placeholder_text(Some("Please enter a guess!"));
                     } else {
+
+                        // Check if the text in entry matches with the word
                         if &message_gstring.to_string() == &words_borrowed.borrow()[1] {
                             score.set(score.get() + 10);
 
                             point_label.set_label(&score.get().to_string());
 
+                            // Get a new word from the list
                             *words_borrowed.borrow_mut() = test.get_word(); 
                             word_label.set_text(&words_borrowed.borrow()[0]);
 
+                            // Reset the entry
                             text_entry.set_text("");
                             text_entry.set_placeholder_text(Some("Enter your guess!"));
 
                             hangman_image.set_from_file("./images/hangmanAlive.png");
 
-                            if score.get()/10 == word_count{
+                            // Check if the score reached, if so, change the UI
+                            if score.get()/10 == 20{
                                 hangman_image.set_from_file("./images/hangmanAlive.png");
                                 score_label.set_text("YOU WON!");
                                 word_label.set_text("Press the button to restart");
@@ -140,12 +147,16 @@ fn main() {
                             }
 
                         } else {
+
+                            // In case of wrong answer, decrease the health
                             health_point.set(health_point.get() - 1);
                             health_count.set_text(&health_point.get().to_string());
 
+                            // Reset the entry
                             text_entry.set_text("");
                             text_entry.set_placeholder_text(Some("Try again!"));
 
+                            // If health has reached to 0, change the UI
                             if health_point.get() == 0 {
                                 hangman_image.set_from_file("./images/hangmanDead.png");
                                 score_label.set_text("YOU LOSE!");
@@ -162,9 +173,12 @@ fn main() {
 
         letter_box.connect_changed(clone!(@strong give_letter_number => move |letter_box| {
 
+            // Check if there is a letter left
             if give_letter_number.get() > 0 {
                 let tree_iter = letter_box.get_active_iter().unwrap();
                 let model = letter_box.get_model().unwrap();
+
+                // Create the alphabet
                 let selection = match &*model.get_string_from_iter(&tree_iter).unwrap().to_string() {
                     "0" => "a",
                     "1" => "b",
@@ -195,25 +209,31 @@ fn main() {
                     _ => "",
                 };
     
+                // Get the original word which is not with '_' character
                 let original_word = &words_borrowed_clone.borrow()[1];
+
+                // Get the word that showed on the application
                 let mut showed_word = word_label_clone.get_text().to_string();
     
                 let mut changed = false;
     
                 for (i, letter) in original_word.char_indices() {
-                    //if letter.to_string().eq(selection) {
+                    // Check if the word includes the letter that selected by user 
+                    //if letter.to_string().eq(selection) { -- Not sure if this is more efficient or not
                     if showed_word.chars().nth(i).unwrap().to_string().eq("_") && letter.to_string().eq(selection) {
                         showed_word.replace_range(i..(i+1), selection);
                         changed = true;
                     }
                 }
     
+                // If any '_' letter found, change
                 if changed {
                     word_label_clone.set_text(&showed_word);
                 } else {
                     println!("'{}' could not found in '{}'", selection, original_word);  
                 }
     
+                // Decrease the letter number
                 give_letter_number.set(give_letter_number.get() - 1);
                 letter_count.set_text(&give_letter_number.get().to_string());
             }

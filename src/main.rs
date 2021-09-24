@@ -37,6 +37,7 @@ fn main() {
             Err(_) => panic!(),
         };
         
+        // Change the image
         hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive0.png");
 
         // Define score
@@ -82,27 +83,32 @@ fn main() {
             "gabby".to_string(),
             "bookworm".to_string(),
         ];
+        
+        let word_list_copy = Rc::new(RefCell::new(word_list.clone()));
 
-        let word_count = word_list.len();
+        let word_count = Rc::new(Cell::new(word_list.len()));
 
-        let test = Word {
-            word_list,
+        let word_struct = Word {
+            word_list: word_list.clone(),
         };
 
-        let words = Rc::new(RefCell::new(test.get_word(word_count)));
+        let word_struct_clone = Rc::new(RefCell::new(word_struct.clone()));
+
+        let words = Rc::new(RefCell::new(word_struct.get_word(word_count.get())));
         let words_borrowed = words.clone();
         let words_borrowed_clone = words_borrowed.clone();
     
         // Set word label as selected word
         word_label.set_text(&words.borrow()[0]);
 
-        check_button.connect_clicked(clone!(@strong score, @strong health_point,@strong give_letter_number_clone  => move |check_button| {
+        check_button.connect_clicked(clone!(@strong score, @strong health_point, @strong give_letter_number_clone, @strong word_count  => move |check_button| {
 
             // If there is no health left, reset the application
             if health_point.get() == 0 {
                 score.set(0);
                 health_point.set(4);
                 give_letter_number_clone.set(4);
+                *word_list_copy.borrow_mut() = word_list.clone();
 
                 hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive0.png");
                 
@@ -114,7 +120,7 @@ fn main() {
                 letter_count_clone.set_text(&give_letter_number_clone.get().to_string());
                 health_count.set_text(&health_point.get().to_string());
 
-                *words_borrowed.borrow_mut() = test.get_word(word_count); 
+                *words_borrowed.borrow_mut() = word_struct.get_word(word_count.get()); 
                 word_label.set_text(&words_borrowed.borrow()[0]);
 
                 check_button.set_label("Check");
@@ -126,6 +132,7 @@ fn main() {
                     score.set(0);
                     health_point.set(4);
                     give_letter_number_clone.set(4);
+                    *word_list_copy.borrow_mut() = word_list.clone();
 
                     hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive0.png");
                     
@@ -137,7 +144,7 @@ fn main() {
                     letter_count_clone.set_text(&give_letter_number_clone.get().to_string());
                     health_count.set_text(&health_point.get().to_string());
 
-                    *words_borrowed.borrow_mut() = test.get_word(word_count); 
+                    *words_borrowed.borrow_mut() = word_struct.get_word(word_count.get()); 
                     word_label.set_text(&words_borrowed.borrow()[0]);
 
                     check_button.set_label("Check");
@@ -153,18 +160,34 @@ fn main() {
 
                         // Check if the text in entry matches with the word
                         if &message_gstring.to_string() == &words_borrowed.borrow()[1] {
+
+                            println!("{:?}", word_list_copy.borrow());
+                            // Remove found word
+                            let word_index = match word_list_copy.borrow().iter().position(|x| *x == words_borrowed.borrow()[1]) {
+                                Some(word_index) => word_index,
+                                None => 0,
+                            };
+                            println!("Index: {}, Word: {}", word_index, message_gstring.to_string());
+                            println!("Entered word: {}, Array Word: {}", message_gstring, words_borrowed.borrow()[1]);
+                            word_list_copy.borrow_mut().remove(word_index);
+                            word_struct_clone.borrow_mut().word_list = word_list_copy.borrow().clone();
+
+                            // Decrease number of words
+                            word_count.set(word_count.get() - 1);
+
                             score.set(score.get() + 10);
 
                             point_label.set_label(&score.get().to_string());
 
                             // Get a new word from the list
-                            *words_borrowed.borrow_mut() = test.get_word(word_count); 
+                            *words_borrowed.borrow_mut() = word_struct_clone.borrow().get_word(word_count.get()); 
                             word_label.set_text(&words_borrowed.borrow()[0]);
 
                             // Reset the entry
                             text_entry.set_text("");
                             text_entry.set_placeholder_text(Some("Enter your guess!"));
 
+                            
 
                             // Check if the score reached, if so, change the UI
                             if score.get()/10 == 20{
@@ -278,6 +301,7 @@ fn main() {
     app.run(&env::args().collect::<Vec<_>>());
 }
 
+#[derive(Clone)]
 struct Word {
     word_list: Vec<String>,
 }

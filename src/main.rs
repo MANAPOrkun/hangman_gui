@@ -27,7 +27,7 @@ fn main() {
         let hangman_image: gtk::Image = builder.get_object("hangman_image").unwrap();
         let letter_box: gtk::ComboBox = builder.get_object("letter_box").unwrap();
         let letter_count: gtk::Label = builder.get_object("count_label").unwrap();
-        let health_count: gtk::Label = builder.get_object("health_label").unwrap();
+        let health_image: gtk::Image = builder.get_object("health_image").unwrap();
         let word_label_clone = word_label.clone();
         let letter_count_clone = letter_count.clone();
 
@@ -39,6 +39,8 @@ fn main() {
         
         // Change the image
         hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive0.png");
+        health_image.set_from_file(working_directory.clone() + "/images/heart3.png");
+
 
         // Define score
         let score = Rc::new(Cell::new(0));
@@ -48,7 +50,7 @@ fn main() {
         let give_letter_number_clone = give_letter_number.clone();
 
         // Define health
-        let health_point = Rc::new(Cell::new(4));
+        let health_point = Rc::new(Cell::new(3));
 
         // Define word list
         let word_list = vec![
@@ -106,11 +108,12 @@ fn main() {
             // If there is no health left, reset the application
             if health_point.get() == 0 {
                 score.set(0);
-                health_point.set(4);
+                health_point.set(3);
                 give_letter_number_clone.set(4);
                 *word_list_copy.borrow_mut() = word_list.clone();
 
                 hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive0.png");
+                health_image.set_from_file(working_directory.clone() + "/images/heart3.png");
                 
                 text_entry.set_text("");
                 text_entry.set_placeholder_text(Some("Enter your guess!"));
@@ -118,7 +121,6 @@ fn main() {
                 score_label.set_text("Score:");
                 point_label.set_label(&score.get().to_string());
                 letter_count_clone.set_text(&give_letter_number_clone.get().to_string());
-                health_count.set_text(&health_point.get().to_string());
 
                 *words_borrowed.borrow_mut() = word_struct.get_word(word_count.get()); 
                 word_label.set_text(&words_borrowed.borrow()[0]);
@@ -130,11 +132,12 @@ fn main() {
                 // Check if the score reached, if so, reset the application
                 if score.get()/10 == 20{
                     score.set(0);
-                    health_point.set(4);
+                    health_point.set(3);
                     give_letter_number_clone.set(4);
                     *word_list_copy.borrow_mut() = word_list.clone();
 
                     hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive0.png");
+                    health_image.set_from_file(working_directory.clone() + "/images/heart3.png");
                     
                     text_entry.set_text("");
                     text_entry.set_placeholder_text(Some("Enter your guess!"));
@@ -142,7 +145,6 @@ fn main() {
                     score_label.set_text("Score:");
                     point_label.set_label(&score.get().to_string());
                     letter_count_clone.set_text(&give_letter_number_clone.get().to_string());
-                    health_count.set_text(&health_point.get().to_string());
 
                     *words_borrowed.borrow_mut() = word_struct.get_word(word_count.get()); 
                     word_label.set_text(&words_borrowed.borrow()[0]);
@@ -161,14 +163,12 @@ fn main() {
                         // Check if the text in entry matches with the word
                         if &message_gstring.to_string() == &words_borrowed.borrow()[1] {
 
-                            println!("{:?}", word_list_copy.borrow());
                             // Remove found word
                             let word_index = match word_list_copy.borrow().iter().position(|x| *x == words_borrowed.borrow()[1]) {
                                 Some(word_index) => word_index,
                                 None => 0,
                             };
-                            println!("Index: {}, Word: {}", word_index, message_gstring.to_string());
-                            println!("Entered word: {}, Array Word: {}", message_gstring, words_borrowed.borrow()[1]);
+
                             word_list_copy.borrow_mut().remove(word_index);
                             word_struct_clone.borrow_mut().word_list = word_list_copy.borrow().clone();
 
@@ -191,7 +191,7 @@ fn main() {
 
                             // Check if the score reached, if so, change the UI
                             if score.get()/10 == 20{
-                                score_label.set_text("YOU WON!");
+                                score_label.set_text("YOU WON! - Score:");
                                 word_label.set_text("Press the button to restart");
                                 check_button.set_label("Restart");
                                 text_entry.hide();
@@ -201,7 +201,6 @@ fn main() {
 
                             // In case of wrong answer, decrease the health
                             health_point.set(health_point.get() - 1);
-                            health_count.set_text(&health_point.get().to_string());
 
                             // Reset the entry
                             text_entry.set_text("");
@@ -209,7 +208,7 @@ fn main() {
 
                             // If health has reached to 0, change the UI
                             if health_point.get() == 0 {
-                                score_label.set_text("YOU LOSE!");
+                                score_label.set_text("YOU LOSE! - Score:");
                                 word_label.set_text("Press the button to restart");
                                 check_button.set_label("Restart");
                                 text_entry.hide();
@@ -217,11 +216,18 @@ fn main() {
                         }
 
                         match health_point.get() {
-                            4 => hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive0.png"),
-                            3 => hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive1.png"),
-                            2 => hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive2.png"),
-                            1 => hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive3.png"),
-                            _=> hangman_image.set_from_file(working_directory.clone() + "/images/hangmanDead.png"),
+                            3 => {hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive0.png");
+                            health_image.set_from_file(working_directory.clone() + "/images/heart3.png");
+                        },
+                            2 => {hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive1.png");
+                            health_image.set_from_file(working_directory.clone() + "/images/heart2.png");
+                        },
+                            1 => {hangman_image.set_from_file(working_directory.clone() + "/images/hangmanAlive2.png");
+                            health_image.set_from_file(working_directory.clone() + "/images/heart1.png");
+                        },
+                            _=> {hangman_image.set_from_file(working_directory.clone() + "/images/hangmanDead.png");
+                            health_image.set_from_file(working_directory.clone() + "/images/heart0.png");
+                        }
                         };
                     };
                 }

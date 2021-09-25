@@ -118,10 +118,10 @@
   </object>
   <object class="GtkApplicationWindow" id="application_window">
     <property name="can-focus">False</property>
+    <property name="halign">center</property>
+    <property name="valign">center</property>
     <property name="title" translatable="yes">Hangman Rust GTK</property>
     <property name="resizable">False</property>
-    <property name="default-width">640</property>
-    <property name="default-height">480</property>
     <child>
       <object class="GtkBox" id="main_box">
         <property name="visible">True</property>
@@ -131,48 +131,87 @@
           <object class="GtkBox" id="up_box">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
             <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkSeparator">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
             <child>
               <object class="GtkBox" id="upper_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <child>
-                  <object class="GtkLabel" id="score_label">
-                    <property name="width-request">90</property>
+                  <object class="GtkBox" id="score_box">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">Score:</property>
-                    <property name="justify">center</property>
-                    <attributes>
-                      <attribute name="font-desc" value="Sans Bold 10"/>
-                      <attribute name="weight" value="heavy"/>
-                      <attribute name="scale" value="2"/>
-                      <attribute name="gravity" value="auto"/>
-                    </attributes>
+                    <child>
+                      <object class="GtkLabel" id="score_label">
+                        <property name="width-request">90</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">Score:</property>
+                        <property name="justify">center</property>
+                        <attributes>
+                          <attribute name="font-desc" value="Sans Bold 10"/>
+                          <attribute name="weight" value="heavy"/>
+                          <attribute name="scale" value="2"/>
+                          <attribute name="gravity" value="auto"/>
+                        </attributes>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="padding">20</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="score_point">
+                        <property name="width-request">90</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">0</property>
+                        <property name="justify">center</property>
+                        <attributes>
+                          <attribute name="font-desc" value="Sans Bold 10"/>
+                          <attribute name="weight" value="heavy"/>
+                          <attribute name="scale" value="2"/>
+                          <attribute name="gravity" value="auto"/>
+                        </attributes>
+                      </object>
+                      <packing>
+                        <property name="expand">True</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
-                    <property name="expand">True</property>
+                    <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="score_point">
-                    <property name="width-request">90</property>
+                  <object class="GtkImage" id="health_image">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">0</property>
-                    <property name="justify">center</property>
-                    <attributes>
-                      <attribute name="font-desc" value="Sans Bold 10"/>
-                      <attribute name="weight" value="heavy"/>
-                      <attribute name="scale" value="2"/>
-                      <attribute name="gravity" value="auto"/>
-                    </attributes>
+                    <property name="halign">end</property>
+                    <property name="stock">gtk-missing-image</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
+                    <property name="padding">16</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -185,30 +224,16 @@
               </packing>
             </child>
             <child>
-              <object class="GtkSeparator">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkBox" id="middle_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <child>
                   <object class="GtkImage" id="hangman_image">
-                    <property name="width-request">36</property>
-                    <property name="height-request">23</property>
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="margin-left">117</property>
-                    <property name="margin-right">104</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">True</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
+                    <property name="stock">gtk-missing-image</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -231,12 +256,16 @@
                   <object class="GtkBox" id="middle_right_box">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="halign">center</property>
+                    <property name="valign">center</property>
                     <property name="orientation">vertical</property>
                     <property name="spacing">16</property>
                     <child>
                       <object class="GtkBox" id="middle_right_up_box">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="halign">center</property>
+                        <property name="valign">center</property>
                         <property name="orientation">vertical</property>
                         <property name="spacing">24</property>
                         <child>
@@ -247,9 +276,11 @@
                               <object class="GtkLabel" id="count_label">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="valign">end</property>
+                                <property name="vexpand">True</property>
                                 <property name="label" translatable="yes">4</property>
                                 <attributes>
-                                  <attribute name="scale" value="2"/>
+                                  <attribute name="scale" value="1.2"/>
                                 </attributes>
                               </object>
                               <packing>
@@ -259,12 +290,15 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="count_label_2">
+                              <object class="GtkLabel" id="count_label2">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="valign">end</property>
+                                <property name="vexpand">True</property>
                                 <property name="label" translatable="yes">/4</property>
                                 <attributes>
-                                  <attribute name="scale" value="2"/>
+                                  <attribute name="weight" value="medium"/>
+                                  <attribute name="scale" value="1.2"/>
                                 </attributes>
                               </object>
                               <packing>
@@ -274,18 +308,21 @@
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkLabel" id="count_text_label">
+                              <object class="GtkLabel" id="letter_label1">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
+                                <property name="valign">end</property>
+                                <property name="vexpand">True</property>
                                 <property name="label" translatable="yes">Letter</property>
                                 <attributes>
-                                  <attribute name="scale" value="2"/>
+                                  <attribute name="weight" value="semibold"/>
+                                  <attribute name="scale" value="1.2"/>
                                 </attributes>
                               </object>
                               <packing>
-                                <property name="expand">False</property>
+                                <property name="expand">True</property>
                                 <property name="fill">True</property>
-                                <property name="padding">45</property>
+                                <property name="padding">11</property>
                                 <property name="position">2</property>
                               </packing>
                             </child>
@@ -295,75 +332,6 @@
                             <property name="fill">True</property>
                             <property name="padding">30</property>
                             <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSeparator">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkBox" id="health_count_box">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <child>
-                              <object class="GtkLabel" id="health_label">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">4</property>
-                                <attributes>
-                                  <attribute name="scale" value="2"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="health_label_2">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">/4</property>
-                                <attributes>
-                                  <attribute name="scale" value="2"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkLabel" id="health_text_label">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <property name="label" translatable="yes">Health</property>
-                                <attributes>
-                                  <attribute name="scale" value="2"/>
-                                </attributes>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">True</property>
-                                <property name="padding">45</property>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">True</property>
-                            <property name="padding">30</property>
-                            <property name="position">2</property>
                           </packing>
                         </child>
                       </object>
@@ -392,8 +360,8 @@
                         <property name="vexpand">True</property>
                         <property name="label" translatable="yes">Select a letter!</property>
                         <attributes>
+                          <attribute name="weight" value="semibold"/>
                           <attribute name="scale" value="1.2"/>
-                          <attribute name="underline" value="True"/>
                         </attributes>
                       </object>
                       <packing>
@@ -428,9 +396,9 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="padding">10</property>
+                    <property name="padding">110</property>
                     <property name="position">2</property>
                   </packing>
                 </child>
@@ -439,7 +407,7 @@
                 <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="padding">10</property>
-                <property name="position">2</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
@@ -450,7 +418,7 @@
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="position">3</property>
+                <property name="position">2</property>
               </packing>
             </child>
             <child>
@@ -459,7 +427,7 @@
                 <property name="can-focus">False</property>
                 <property name="label" translatable="yes">Press the button to start!</property>
                 <attributes>
-                  <attribute name="weight" value="bold"/>
+                  <attribute name="weight" value="semibold"/>
                   <attribute name="scale" value="2"/>
                 </attributes>
               </object>
@@ -467,7 +435,7 @@
                 <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="padding">10</property>
-                <property name="position">4</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>
@@ -486,12 +454,13 @@
               <object class="GtkEntry" id="text_entry">
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
+                <property name="valign">center</property>
                 <property name="margin-start">150</property>
                 <property name="margin-end">150</property>
                 <property name="placeholder-text" translatable="yes">Enter your guess here!</property>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="padding">10</property>
                 <property name="position">0</property>

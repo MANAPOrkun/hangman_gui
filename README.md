@@ -21,4 +21,4 @@ GNU/Linux
 ![](screenshots/1.png)
 ![](screenshots/2.png)
 
-Special thanks to Zofia May for her great drawings!
+Special thanks to Zofia Maj for her great drawings!
